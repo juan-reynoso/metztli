@@ -246,3 +246,20 @@
 >
 #+end_example
 
+** Get the come from github
+Clone the project
+#+begin_example
+https://github.com/juan-reynoso/metztli.git
+#+end_example
+
+*** Load the project by quicklisp
+Put all together
+
+#+begin_example
+;; load the project
+(ql:quickload "metztli")
+;; Use the package
+(in-package :metztli)
+;; start the server
+(start-web-server)
+#+end_example
