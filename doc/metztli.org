@@ -134,7 +134,7 @@
 #+begin_example
 (start-web-server)
 #+end_example
-** Finally open you browser:
+** Open you browser:
 
    http://localhost:8090/index.html
   or
@@ -263,3 +263,49 @@ Put all together
 ;; start the server
 (start-web-server)
 #+end_example
+
+** Jquery AJAX example
+Add javaScript library
+#+begin_example
+(<:script :type "text/javascript"
+          :src "https://code.jquery.com/jquery-3.6.0.min.js")
+#+end_example
+
+Chunk of code
+#+begin_example
+
+;; function
+(chunk-of-code)
+
+
+;; get this code by AJAX request
+
+<!-- HTML code-->
+<div class="content mt-5"
+  ><h1 class="text-success"
+    >This text was updated by AJAX</h1
+  ></div
+>
+#+end_example
+
+Ajax example webpage
+
+#+begin_example
+(defun ajax-example ()
+  (with-html "jquery AJAX example"
+    (<:main :id "content"
+	    :class "container"
+	    (<:h1 "First content"))
+    (<:style "body{text-shadow:none;box-shadow: none !important;}")
+    (<:script :type "text/javascript"
+	      (<:as-is "alert('The text will be updated.'); $.ajax ({url: '/chunk',
+	     cache: false,
+	     success: function (result) {
+		 $('#content').html(result);
+	     }
+	    });"))))
+#+end_example
+
+ Open you browser and see the result:
+
+   http://localhost:8090/ajax-example.html

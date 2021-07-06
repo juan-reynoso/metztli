@@ -7,7 +7,7 @@
 
 (defun start-web-server (&key (port 8090))
   "Start the web server"
-  (setf *server* (start (make-instance 'easy-acceptor :port port ))))
+  (setf *server* (start (make-instance 'easy-acceptor :port port))))
 
 (defun stop-web-server ()
   "Stop the web server"
@@ -33,6 +33,8 @@
 	      (<:link :rel "stylesheet"
 		      :type "text/css"
 		      :href "https://getbootstrap.com/docs/5.0/examples/cover/cover.css")
+	      (<:script :type "text/javascript"
+			:src "https://code.jquery.com/jquery-3.6.0.min.js")
 	      (<:title (<:as-html ,title)))
 	     (<:body
 	      ,@body))))
@@ -100,8 +102,30 @@
 				"Ikkiware"))))
 	  (<:style "body,html {height: 100% !important; }"))))
 
+(defun chunk-of-code ()
+  (with-yaclml-output-to-string
+    (<:div :class "content mt-5"
+	   (<:h1 :class "text-success"
+		 "This text was updated by AJAX"))))
+
+(defun ajax-example ()
+  (with-html "jquery AJAX example"
+    (<:main :id "content"
+	    :class "container"
+	    (<:h1 "First content"))
+    (<:style "body{text-shadow:none;box-shadow: none !important;}")
+    (<:script :type "text/javascript"
+	      (<:as-is "alert('The text will be updated.'); $.ajax ({url: '/chunk',
+	     cache: false,
+	     success: function (result) {
+		 $('#content').html(result);
+	     }
+	    });"))))
+
 (setq *dispatch-table*
       (list
        (create-regex-dispatcher "^/$" 'index)
        (create-prefix-dispatcher  "/index.html" 'index)
-       (create-prefix-dispatcher  "/cover.html" 'cover)))
+       (create-prefix-dispatcher  "/cover.html" 'cover)
+       (create-prefix-dispatcher  "/chunk" 'chunk-of-code)
+       (create-prefix-dispatcher  "/ajax-example.html" 'ajax-example)))
